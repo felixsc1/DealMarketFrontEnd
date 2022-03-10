@@ -1,5 +1,5 @@
-import { useMoralis, useWeb3ExecuteFunction } from "react-moralis"
-import { React, useState } from 'react';
+import { useMoralis, useWeb3ExecuteFunction, useMoralisQuery } from "react-moralis"
+import { React, useState, useEffect } from 'react';
 import { Input, Stack, Button, Box, Center, Heading, FormControl, FormLabel} from '@chakra-ui/react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,7 +12,8 @@ export default function CreateDealComponent() {
         receiver: "",
         price: 0,
         token: "",
-        date: null
+        date: null,
+        description: "empty"
     })
 
 
@@ -58,6 +59,44 @@ export default function CreateDealComponent() {
 
         //await contractProcessor.fetch({params: options, onSuccess: console.log("New Deal Created!")})
 
+    async function updateDealEntry(moralisId) {
+        const Deals = Moralis.Object.extend("Deal")
+        const query = new Moralis.Query(Deals)
+        const result = await query.get(moralisId)
+        // console.log(result)
+        // description.set('description', dealData.description)
+        // description.set('dealId', String(newDealId))
+        result.set('description', dealData.description)
+        // console.log(dealData.description)
+        await result.save()
+    }
+
+
+    async function findLatestDeal() {
+        const Deals = Moralis.Object.extend("Deal")
+        const query = new Moralis.Query(Deals)
+        query.descending("createdAt")
+        query.limit(1)
+        const results = await query.find()
+        // console.log(results[0].id)
+        return results[0].id
+    }
+
+    const [moralisId, setMoralisId] = useState()
+    useEffect( async ()=> {
+        const _moralisId = await findLatestDeal()
+        setMoralisId(_moralisId)
+        // console.log(moralisId)
+    }, [])
+
+
+    function handleClick() {
+        // fetch({params: options}) // write deal data to blockchain
+        // updateDealEntry(moralisId) // write additional description to off-chain database
+        alert('New Deal Created! Please wait for block confirmation.')
+    }
+
+
 
     return (
         <Center py={6}>
@@ -70,6 +109,8 @@ export default function CreateDealComponent() {
                 <Stack spacing={3}>
                     <Heading>Create New Deal</Heading>
                     <FormControl>
+                        <FormLabel htmlFor='sender'>description</FormLabel>
+                        <Input type="text" variant='filled' placeholder='enter description' size='sm' onChange={handleChange} name="description" />
                         <FormLabel htmlFor='sender'>sender address</FormLabel>
                         <Input type="text" variant='filled' placeholder='sender address (0x....)' size='sm' onChange={handleChange} name="sender" />
                         <FormLabel htmlFor='receiver'>receiver address</FormLabel>
@@ -87,7 +128,7 @@ export default function CreateDealComponent() {
                             placeholderText='pick a date'
                         />
                     </FormControl>
-                    <Button onClick={() => fetch({params: options})} disabled={isFetching}>Submit</Button>
+                    <Button onClick={() => handleClick()} disabled={isFetching}>Submit</Button>
                 </Stack>
                 </Box>
                 </Center>

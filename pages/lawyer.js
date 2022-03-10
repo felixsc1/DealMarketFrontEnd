@@ -25,12 +25,10 @@ function LawyerPage() {
   return (
       <Box padding={'10px'}>
         <VStack spacing={4} align='left'>
-        <Heading>Lawyer Page</Heading>
-        {/* <Connect /> */}
-        <CreateDeal />
-        {/* <GetDealStatus dealId={1} /> */}
-        <Heading>Previous Deals:</Heading>
-        <ShowDeal user='lawyer' dealData={dealData}/>
+            <Heading>Lawyer Page</Heading>
+            <CreateDeal />
+            <Heading>Previous Deals:</Heading>
+            <ShowDeal user='lawyer' dealData={dealData}/>
         </VStack>
     </Box>
   )

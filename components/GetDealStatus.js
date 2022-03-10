@@ -23,7 +23,7 @@ export default function GetDealStatus({dealId}) {
     const fetchDeal = async () => {
         let data = await Moralis.executeFunction(options)
         setDealStatus(data.status)
-        console.log(dealStatus)
+        // console.log(dealStatus)
     }
 
 

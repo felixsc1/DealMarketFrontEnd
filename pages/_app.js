@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 function MyApp({ Component, pageProps }) {
 
-  const appId=""
+  const appId="WG7LhO4LwzpgKA31MSO2T2wpjugzz1WkoZr5qLAk"
   const serverUrl="https://hvtduwpsk6x7.usemoralis.com:2053/server"
 
   return (

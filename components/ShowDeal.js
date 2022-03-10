@@ -1,13 +1,10 @@
-import { useMoralisQuery } from "react-moralis"
-import { React, useState } from 'react';
-import { Heading } from '@chakra-ui/react'
+import { React } from 'react';
 import DealCard from "./DealCard";
 
 // <pre>{JSON.stringify(data, null, 2)}</pre>
 
 export default function ShowDeal(props) {
 
-    
     // for the lawyer we want to display all deals, for the customer only the selected deal.
     // const { data, error, isLoading } = useMoralisQuery("Deal")
     
@@ -27,8 +24,6 @@ export default function ShowDeal(props) {
     //  },[data])
 
     //console.log(dealData)
-    
-    
 
 
     return (
