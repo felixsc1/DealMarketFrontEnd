@@ -10,12 +10,54 @@ import Pay from './Pay'
 import GetDealStatus from '../components/GetDealStatus'
 import CancelFinalize from './CancelFinalize'
 import getDescription from "./GetDescription"
+import {useState, useEffect} from 'react'
+import * as constant from '../contracts/MarketPlaceContract'
+import { useMoralis } from "react-moralis"
+import { render } from 'react-dom';
 
-  export default function DealCard(props) {
-   
+
+
+export default function DealCard(props) {
+
+  const { Moralis } = useMoralis()
+  let options = {
+          abi: constant.contractABI,
+          contractAddress: constant.contractAddress,
+          functionName: "showDeal",
+          params: {
+              dealId: props.dealdata.attributes.dealId, 
+          }
+      }
+      
+  const [dealStatus, setDealStatus] = useState(1)
+  // const [doRender, setDoRender] = useState(true)
+  const [descriptionText, setDescriptionText] = useState()
+  let _output = getDescription(parseInt(props.dealdata.attributes.dealId))  
+
+  const fetchDeal = async () => {
+      let data = await Moralis.executeFunction(options)
+      setDealStatus(data.status)
+      // console.log(data.status)
+  }
+
+  const [renderComponent, setRenderComponent] = useState(false)
+  
+  useEffect( ()=> {
+      fetchDeal()
+      setDescriptionText(_output)
+
+      if (dealStatus === 0) {setRenderComponent(props.doRender.open)}
+      if (dealStatus === 1) {setRenderComponent(props.doRender.paid)}
+      if (dealStatus === 2) {setRenderComponent(props.doRender.complete)}
+      if (dealStatus === 3) {setRenderComponent(props.doRender.cancelled)}
+  }, [props.doRender])
+    
+  
+  // console.log(props.doRender.open)
+     
     return (
       <Center py={6}>
-        <Box
+        { renderComponent && <Box
           maxW={'400px'}
           w={'full'}
           bg={useColorModeValue('white', 'gray.900')}
@@ -30,19 +72,19 @@ import getDescription from "./GetDescription"
           </Text>
   
           <Stack align={'left'} direction={'column'} mt={6}>
-            <Text fontSize={'md'}>{getDescription(parseInt(props.dealdata.attributes.dealId))}</Text>
+            <Text fontSize={'md'}>{descriptionText}</Text>
             <Text fontSize={'xs'}>sender: {props.dealdata.attributes.sender}</Text>
             <Text fontSize={'xs'}>receiver: {props.dealdata.attributes.receiver}</Text>
             <Text fontSize={'xs'}>price (USD): {props.dealdata.attributes.priceUSD/10**18}</Text>
             <Text fontSize={'xs'}>token: {props.dealdata.attributes.symbol}</Text>
           </Stack>
-          {/* <Badge margin={2} colorScheme='green'>Active</Badge> */}
           <GetDealStatus dealId={props.dealdata.attributes.dealId} />
           <Stack mt={2} direction={'row'} spacing={4}>
             {props.user === 'lawyer' && <CancelFinalize dealId={props.dealdata.attributes.dealId}/>}
             {props.user === 'customer' && <Pay dealId={props.dealdata.attributes.dealId}/>}
           </Stack>
-        </Box>
+        </Box>}
+        <></>
       </Center>
     );
   }

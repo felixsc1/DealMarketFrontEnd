@@ -1,0 +1,43 @@
+.login_container {
+  background-color: slateblue;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_card {
+  background-color: white;
+  width: 200px;
+  height: 250px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.sign_in_container {
+  /*  flex: 1 meaning: take as much space as possible */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* carrot means "first item in container that is a button" */
+.sign_in_container > button {
+  padding: 10px;
+  border: none;
+  border-radius: 40px;
+  background-color: slateblue;
+  color: white;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 10px;
+  margin: 5px;
+}
