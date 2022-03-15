@@ -35,12 +35,12 @@ export default function DealCard(props) {
   let _output = getDescription(parseInt(props.dealdata.attributes.dealId))  
 
   const fetchDeal = async () => {
+      // await Moralis.enableWeb3()
       let data = await Moralis.executeFunction(options)
       setDealStatus(data.status)
-      // console.log(data.status)
   }
 
-  const [renderComponent, setRenderComponent] = useState(false)
+  const [renderComponent, setRenderComponent] = useState(true)
   
   useEffect( ()=> {
       fetchDeal()

@@ -6,10 +6,10 @@ import Login from '../components/Login'
 import { Button } from '@chakra-ui/react'
 
 export default function Home() {
-  const {isAuthenticated, logout} = useMoralis()
+  const {isAuthenticated, logout, user} = useMoralis()
   return (
     <div>
-      {isAuthenticated ? (
+      {user ? (
         <> 
           <LandingPage />
           <Button onClick={logout}>Sign Out</Button>

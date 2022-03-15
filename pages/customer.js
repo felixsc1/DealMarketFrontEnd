@@ -38,18 +38,24 @@ function CustomerPage() {
         //console.log(queryData)
     }
 
+    const [doRender, setDoRender] = useState({
+        open: true,
+        paid: true,
+        complete: true,
+        cancelled: true
+    })
 
   return (
       <div>
-        <Heading>Customer Page</Heading>
+        <Heading margin='20px'>Customer Page</Heading>
         {/* <Connect /> */}
-        <FormControl border={'2px solid black'} width={'200px'}>
+        <FormControl border={'2px solid black'} width={'200px'} margin='20px'>
             <FormLabel htmlFor='sender' padding={'5px'}>Your deal ID:</FormLabel>
             <Input margin={'10px'} type="number" variant='filled' placeholder='enter deal ID' size='sm' width='{100px}' onChange={handleDealSelection} />
             {selectedDeal && <Query queryToParent={queryToParent} selectedDeal={selectedDeal}/>}
         </FormControl>
-        <Heading>Your Deals:</Heading>
-        <ShowDeal user='customer' dealData={queryData}/>
+        {/* <Heading>Your Deals:</Heading> */}
+        <ShowDeal user='customer' dealData={queryData} doRender={doRender}/>
     </div>
   )
 }

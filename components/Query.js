@@ -4,7 +4,7 @@ import { React, useEffect, useState } from 'react'
 
 export default function Query({queryToParent, selectedDeal}) {
 
-    console.log(selectedDeal)
+    // console.log(selectedDeal)
 
     const {data, error, isLoading } = useMoralisQuery(
         "Deal",
@@ -18,7 +18,7 @@ export default function Query({queryToParent, selectedDeal}) {
         setDealData(data)
         },[data])
 
-    console.log(dealData)
+    // console.log(dealData)
     
     return (
         <div>

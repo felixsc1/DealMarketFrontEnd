@@ -1,16 +1,16 @@
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis"
 import * as constant from '../contracts/MarketPlaceContract'
 import * as tokenconstant from '../contracts/Tokens'
-import { Button } from '@chakra-ui/react'
+import { Button, VStack } from '@chakra-ui/react'
 import Ma from './Ma'
 import { useEffect } from "react"
 
 export default function Pay(props) { 
 
     const { Moralis } = useMoralis()
-    useEffect(() => {
-        Moralis.enableWeb3()
-    },[])
+    // useEffect(() => {
+    //     Moralis.enableWeb3()
+    // },[])
     
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction();
 
@@ -22,8 +22,8 @@ export default function Pay(props) {
             dealId: props.dealId, 
         }
     }
-    console.log(constant.contractAddress)
-    console.log(tokenconstant.autiCoinAddress)
+    // console.log(constant.contractAddress)
+    // console.log(tokenconstant.autiCoinAddress)
 
     let optionsApprove = {
         abi: tokenconstant.autiCoinABI,
@@ -61,8 +61,9 @@ export default function Pay(props) {
               _focus={{
                 bg: 'blue.500',
               }}>Pay</Button>
+          
         {/* {error && <>{JSON.stringify(error)}</>} */}
-        {error && <Ma errMessage={error}/>}
+        {error && <Ma errMessage={error.message}/>}
         </>
     )
 

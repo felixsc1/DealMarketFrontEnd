@@ -16,6 +16,7 @@ function LawyerPage() {
     // const { data, error, isLoading } = useMoralisQuery("Deal", query =>
     //     query
     //         .equalTo("dealId_decimal", 1))
+    const {user, logout} = useMoralis()
 
     const { data, error, isLoading } = useMoralisQuery("Deal")
     const [dealData, setDealData] = useState()
@@ -40,6 +41,9 @@ function LawyerPage() {
                 [event.target.name]: event.target.checked
             }
     })}
+
+    if (!user.attributes.isLawyer) {
+    return (<>Access only for lawyers. <button onClick={logout}>Sign Out</button></>)}
 
 
   return (
