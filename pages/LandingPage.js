@@ -1,4 +1,4 @@
-import { Heading, HStack, Button } from '@chakra-ui/react'
+import { Heading, HStack, Button, Text, Container } from '@chakra-ui/react'
 import ChakraUIHeader from '../components/Header'
 import {useMoralis} from "react-moralis"
 
@@ -9,6 +9,7 @@ function LandingPage({ Component, pageProps }) {
 
     const {enableWeb3, account, Moralis, user, authenticate} = useMoralis()
 
+    console.log(user)
     async function handleWeb3() {
         // console.log(user)
         await enableWeb3()
@@ -19,16 +20,19 @@ function LandingPage({ Component, pageProps }) {
     }
 
   return (
-      <div>
-            <Heading padding={'10px'}>Welcome</Heading>
-            <HStack margin='50px'>
-            <Link href="/lawyer">
-                <Button>Lawyer Page</Button></Link>
-            <Link href="/customer">
-                <Button>Customer Page</Button></Link>
+      <Container>
+            <Heading padding={'10px'}>Welcome!   {user.attributes.email}</Heading>
+            <Text padding={'10px'}>Please connect your Metamask wallet before proceeding.</Text>
+            <HStack margin='10px'>
+                <Button onClick={handleWeb3} colorScheme='red'>Connect Wallet</Button>
+                <Link href="/customer">
+                    <Button>Customer Page</Button></Link> 
+                <Link href="/lawyer">
+                    <Button>Lawyer Page</Button></Link>
+                
             </HStack>
-            <Button onClick={handleWeb3}>Connect Wallet</Button>
-        </div>
+            
+        </Container>
   )
 }
 

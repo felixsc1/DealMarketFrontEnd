@@ -12,7 +12,7 @@ export default function Home() {
       {user ? (
         <> 
           <LandingPage />
-          <Button onClick={logout}>Sign Out</Button>
+          <Button margin='10px' onClick={logout}>Sign Out</Button>
         </>
         ) : (<Login />)}
     </div>

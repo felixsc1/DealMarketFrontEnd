@@ -59,41 +59,29 @@ export default function CreateDealComponent() {
 
         //await contractProcessor.fetch({params: options, onSuccess: console.log("New Deal Created!")})
 
-    async function updateDealEntry(moralisId) {
-        const Deals = Moralis.Object.extend("Deal")
+    async function updateDealEntry() {
+        const Deals = Moralis.Object.extend("Deals")
         const query = new Moralis.Query(Deals)
-        const result = await query.get(moralisId)
-        // console.log(result)
-        // description.set('description', dealData.description)
-        // description.set('dealId', String(newDealId))
-        result.set('description', dealData.description)
-        // console.log(dealData.description)
-        await result.save()
-    }
-
-
-    async function findLatestDeal() {
-        const Deals = Moralis.Object.extend("Deal")
-        const query = new Moralis.Query(Deals)
+     
         query.descending("createdAt")
         query.limit(1)
-        const results = await query.find()
-        // console.log(results[0].id)
-        return results[0].id
+        const result = await query.first()
+        console.log(`updating deal ${parseInt(result.attributes.dealId)}`)
+        result.set('description', dealData.description)
+        await result.save()
     }
 
     const [moralisId, setMoralisId] = useState()
     useEffect( async ()=> {
-        const _moralisId = await findLatestDeal()
-        setMoralisId(_moralisId)
-        // console.log(moralisId)
+        // const _moralisId = await findLatestDeal()
+
     }, [])
 
 
     function handleClick() {
-        // fetch({params: options}) // write deal data to blockchain
-        // updateDealEntry(moralisId) // write additional description to off-chain database
-        alert('New Deal Created! Please wait for block confirmation.')
+        fetch({params: options}) // write deal data to blockchain
+        updateDealEntry() // write additional description to off-chain database
+        alert('New Deal is being created! Please wait for block confirmation.')
     }
 
 

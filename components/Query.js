@@ -1,4 +1,4 @@
-import { useMoralisQuery } from "react-moralis"
+import { useMoralisQuery, useMoralis } from "react-moralis"
 import { Button } from '@chakra-ui/react'
 import { React, useEffect, useState } from 'react'
 
@@ -14,6 +14,9 @@ export default function Query({queryToParent, selectedDeal}) {
 
     const [dealData, setDealData] = useState()
 
+
+
+
     useEffect(() => {
         setDealData(data)
         },[data])
@@ -22,7 +25,7 @@ export default function Query({queryToParent, selectedDeal}) {
     
     return (
         <div>
-            <Button margin={'10px'} onClick={() => queryToParent(dealData)}>Show Deals</Button>
+            <Button margin={'10px'} onClick={() => queryToParent(dealData)}>Show Deal</Button>
         </div>
     )
 

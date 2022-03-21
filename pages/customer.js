@@ -6,7 +6,7 @@ import Query from '../components/Query'
 
 function CustomerPage() {
 
-    const [selectedDeal, setSelectedDeal] = useState()
+    const [selectedDeal, setSelectedDeal] = useState("")
 
     function handleDealSelection(event) {
             setSelectedDeal(parseInt(event.target.value))
@@ -35,7 +35,8 @@ function CustomerPage() {
     const [queryData, setQueryData] = useState()
     const queryToParent = (queryData) => {
         setQueryData(queryData)
-        //console.log(queryData)
+        // console.log(queryData)
+        // console.log(queryData[0].id.slice(0,4))
     }
 
     const [doRender, setDoRender] = useState({
@@ -48,10 +49,9 @@ function CustomerPage() {
   return (
       <div>
         <Heading margin='20px'>Customer Page</Heading>
-        {/* <Connect /> */}
         <FormControl border={'2px solid black'} width={'200px'} margin='20px'>
-            <FormLabel htmlFor='sender' padding={'5px'}>Your deal ID:</FormLabel>
-            <Input margin={'10px'} type="number" variant='filled' placeholder='enter deal ID' size='sm' width='{100px}' onChange={handleDealSelection} />
+            <FormLabel padding={'5px'}>Your deal ID:</FormLabel>
+            <Input margin={'10px'} type="text" variant='filled' placeholder='enter deal ID' size='sm' width='{50px}' onChange={handleDealSelection} />
             {selectedDeal && <Query queryToParent={queryToParent} selectedDeal={selectedDeal}/>}
         </FormControl>
         {/* <Heading>Your Deals:</Heading> */}

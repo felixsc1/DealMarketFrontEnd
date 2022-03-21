@@ -12,19 +12,14 @@ function LawyerPage() {
     // Moralis.enableWeb3()
 
 
-
-    // const { data, error, isLoading } = useMoralisQuery("Deal", query =>
-    //     query
-    //         .equalTo("dealId_decimal", 1))
     const {user, logout} = useMoralis()
 
-    const { data, error, isLoading } = useMoralisQuery("Deal")
+    const { data, error, isLoading } = useMoralisQuery("Deals")
     const [dealData, setDealData] = useState()
     useEffect(() => {
         setDealData(data)
     },[data])
 
-    // const [doRender, setDoRender] = useState(false)
 
     const [doRender, setDoRender] = useState({
         open: true,
@@ -42,7 +37,7 @@ function LawyerPage() {
             }
     })}
 
-    if (!user.attributes.isLawyer) {
+    if (user && !user.attributes.isLawyer) {
     return (<>Access only for lawyers. <button onClick={logout}>Sign Out</button></>)}
 
 

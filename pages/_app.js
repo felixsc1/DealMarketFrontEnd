@@ -4,8 +4,8 @@ import { MoralisProvider } from "react-moralis";
 
 function MyApp({ Component, pageProps }) {
 
-  const appId="WG7LhO4LwzpgKA31MSO2T2wpjugzz1WkoZr5qLAk"
-  const serverUrl="https://hvtduwpsk6x7.usemoralis.com:2053/server"
+  const appId="VpSaHPG0SiNIokmMas71hyiS1Xa6tUCuTQaDuO1G"
+  const serverUrl="https://81sdcwstfc5t.usemoralis.com:2053/server"
 
   return (
     <ChakraProvider>
