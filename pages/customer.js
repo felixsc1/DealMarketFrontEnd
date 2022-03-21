@@ -34,7 +34,8 @@ function CustomerPage() {
 
     const [queryData, setQueryData] = useState()
     const queryToParent = (queryData) => {
-        setQueryData(queryData)
+        const datacopy = queryData.slice()
+        setQueryData(datacopy)
         // console.log(queryData)
         // console.log(queryData[0].id.slice(0,4))
     }
@@ -51,7 +52,7 @@ function CustomerPage() {
         <Heading margin='20px'>Customer Page</Heading>
         <FormControl border={'2px solid black'} width={'200px'} margin='20px'>
             <FormLabel padding={'5px'}>Your deal ID:</FormLabel>
-            <Input margin={'10px'} type="text" variant='filled' placeholder='enter deal ID' size='sm' width='{50px}' onChange={handleDealSelection} />
+            <Input margin={'10px'} type="number" variant='filled' placeholder='enter deal ID' size='sm' width='{50px}' onChange={handleDealSelection} />
             {selectedDeal && <Query queryToParent={queryToParent} selectedDeal={selectedDeal}/>}
         </FormControl>
         {/* <Heading>Your Deals:</Heading> */}

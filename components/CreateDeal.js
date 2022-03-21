@@ -71,17 +71,36 @@ export default function CreateDealComponent() {
         await result.save()
     }
 
-    const [moralisId, setMoralisId] = useState()
-    useEffect( async ()=> {
-        // const _moralisId = await findLatestDeal()
+    async function getPreviousDeal() {
+        const Deals = Moralis.Object.extend("Deals")
+        const query = new Moralis.Query(Deals)
+     
+        query.descending("createdAt")
+        query.limit(1)
+        const result = await query.first()
+        return result.attributes.dealId
+    }
 
+
+    const [oldDeal, setOldDeal] = useState()
+    useEffect( async ()=> {
+        // await Moralis.enableWeb3()
+        const _dealId = await getPreviousDeal()
+        setOldDeal(_dealId)
     }, [])
 
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+      }
 
-    function handleClick() {
+    async function handleClick() {
         fetch({params: options}) // write deal data to blockchain
-        updateDealEntry() // write additional description to off-chain database
-        alert('New Deal is being created! Please wait for block confirmation.')
+        alert('New Deal is being created! Please keep the browser window open for 1 minute.')
+        await sleep(60000) // wait for database to update with new deal.. maybe not most elegant way
+        if (oldDeal != getPreviousDeal()) {
+            updateDealEntry()
+        } else {console.log('database not updated')}
+         // write additional description to off-chain database
     }
 
 

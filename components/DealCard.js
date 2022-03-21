@@ -13,8 +13,6 @@ import getDescription from "./GetDescription"
 import {useState, useEffect} from 'react'
 import * as constant from '../contracts/MarketPlaceContract'
 import { useMoralis } from "react-moralis"
-import { render } from 'react-dom';
-
 
 
 export default function DealCard(props) {
@@ -42,7 +40,8 @@ export default function DealCard(props) {
 
   const [renderComponent, setRenderComponent] = useState(true)
   
-  useEffect( ()=> {
+  useEffect( async ()=> {
+      // await Moralis.enableWeb3()
       fetchDeal()
       setDescriptionText(_output)
 
@@ -81,7 +80,7 @@ export default function DealCard(props) {
           <GetDealStatus dealId={props.dealdata.attributes.dealId} />
           <Stack mt={2} direction={'row'} spacing={4}>
             {props.user === 'lawyer' && <CancelFinalize dealId={props.dealdata.attributes.dealId}/>}
-            {props.user === 'customer' && <Pay dealId={props.dealdata.attributes.dealId}/>}
+            {props.user === 'customer' && <Pay dealId={props.dealdata.attributes.dealId} dealStatus={dealStatus}/>}
           </Stack>
         </Box>}
         <></>

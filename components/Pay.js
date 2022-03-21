@@ -3,7 +3,7 @@ import * as constant from '../contracts/MarketPlaceContract'
 import * as tokenconstant from '../contracts/Tokens'
 import { Button, VStack } from '@chakra-ui/react'
 import Ma from './Ma'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function Pay(props) { 
 
@@ -35,9 +35,11 @@ export default function Pay(props) {
         }
     }
 
+  
+
     return (
         <>
-        <Button onClick={() => fetch({params: optionsApprove})} disabled={isFetching}
+        <Button onClick={() => fetch({params: optionsApprove})} disabled={props.dealStatus != 0}
               flex={1}
               fontSize={'sm'}
               rounded={'full'}
@@ -46,7 +48,7 @@ export default function Pay(props) {
               }}>
               Approve Token
         </Button>
-        <Button onClick={() => fetch({params: optionsPay})} disabled={isFetching}
+        <Button onClick={() => fetch({params: optionsPay})} disabled={props.dealStatus != 0}
             flex={1}
               fontSize={'sm'}
               rounded={'full'}

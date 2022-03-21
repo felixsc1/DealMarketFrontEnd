@@ -7,7 +7,7 @@ export default function Query({queryToParent, selectedDeal}) {
     // console.log(selectedDeal)
 
     const {data, error, isLoading } = useMoralisQuery(
-        "Deal",
+        "Deals",
         query =>
             query
                 .equalTo("dealId_decimal", selectedDeal))

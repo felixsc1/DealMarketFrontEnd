@@ -9,7 +9,7 @@ function LandingPage({ Component, pageProps }) {
 
     const {enableWeb3, account, Moralis, user, authenticate} = useMoralis()
 
-    console.log(user)
+    // console.log(user)
     async function handleWeb3() {
         // console.log(user)
         await enableWeb3()

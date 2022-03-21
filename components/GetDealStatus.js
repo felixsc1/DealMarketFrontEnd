@@ -46,7 +46,8 @@ export default function GetDealStatus({dealId}) {
             badgeColor = 'red'
         }
 
-    useEffect( ()=> {
+    useEffect( async ()=> {
+        // await Moralis.enableWeb3()
         fetchDeal()
     }, [])
 
