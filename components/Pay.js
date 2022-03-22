@@ -8,22 +8,36 @@ import { useEffect, useState } from "react"
 export default function Pay(props) { 
 
     const { Moralis } = useMoralis()
-    // useEffect(() => {
-    //     Moralis.enableWeb3()
-    // },[])
+
+    const [msgValue, setMsgValue] = useState(0)
+
+    useEffect(() => {
+      console.log(props.tokenAmount)
+        if (props.symbol == "ETH") {
+          setMsgValue(props.tokenAmount)
+        }
+    },[])
     
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction();
-
-    let optionsPay = {
-        abi: constant.contractABI,
-        contractAddress: constant.contractAddress,
-        functionName: "payDeal",
-        params: {
-            dealId: props.dealId, 
-        }
-    }
-    // console.log(constant.contractAddress)
-    // console.log(tokenconstant.autiCoinAddress)
+    
+    if (props.symbol == "ETH") {
+      let optionsPay = {
+          abi: constant.contractABI,
+          contractAddress: constant.contractAddress,
+          functionName: "payDeal",
+          params: {
+              dealId: props.dealId, 
+          },
+          msgValue: msgValue
+      }} else {
+        let optionsPay = {
+          abi: constant.contractABI,
+          contractAddress: constant.contractAddress,
+          functionName: "payDeal",
+          params: {
+              dealId: props.dealId, 
+          }
+      }}
 
     let optionsApprove = {
         abi: tokenconstant.autiCoinABI,
@@ -31,15 +45,14 @@ export default function Pay(props) {
         functionName: "approve",
         params: {
             spender: constant.contractAddress,
-            amount: Moralis.Units.ETH(10000000000) // just some really high number. todo: set it to the actual price
+            amount: Moralis.Units.ETH(10000000000) // just some really high number. could use props.tokenamount
         }
     }
 
-  
 
     return (
         <>
-        <Button onClick={() => fetch({params: optionsApprove})} disabled={props.dealStatus != 0}
+        {props.symbol != "ETH" && <Button onClick={() => fetch({params: optionsApprove})} disabled={props.dealStatus != 0}
               flex={1}
               fontSize={'sm'}
               rounded={'full'}
@@ -47,7 +60,7 @@ export default function Pay(props) {
                 bg: 'gray.200',
               }}>
               Approve Token
-        </Button>
+        </Button>}
         <Button onClick={() => fetch({params: optionsPay})} disabled={props.dealStatus != 0}
             flex={1}
               fontSize={'sm'}

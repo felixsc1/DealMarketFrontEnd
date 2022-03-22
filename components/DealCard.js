@@ -14,7 +14,6 @@ import {useState, useEffect} from 'react'
 import * as constant from '../contracts/MarketPlaceContract'
 import { useMoralis } from "react-moralis"
 
-
 export default function DealCard(props) {
 
   const { Moralis } = useMoralis()
@@ -26,22 +25,45 @@ export default function DealCard(props) {
               dealId: props.dealdata.attributes.dealId, 
           }
       }
+
+  let optionsConvert = {
+        abi: constant.contractABI,
+        contractAddress: constant.contractAddress,
+        functionName: "USDtoToken",
+        params: {
+            symbol: props.dealdata.attributes.symbol,
+            usdamount: props.dealdata.attributes.priceUSD, 
+        }
+    }
       
   const [dealStatus, setDealStatus] = useState(1)
   // const [doRender, setDoRender] = useState(true)
   const [descriptionText, setDescriptionText] = useState()
   let _output = getDescription(parseInt(props.dealdata.attributes.dealId))  
 
+  const [tokenAmount, setTokenAmount] = useState()
+
   const fetchDeal = async () => {
       // await Moralis.enableWeb3()
       let data = await Moralis.executeFunction(options)
       setDealStatus(data.status)
+
+      let _tokenamount = await Moralis.executeFunction(optionsConvert)
+      setTokenAmount(_tokenamount)
+
+      // if ETH is used for payment, calculate the amount
+      // let amount = ETHAmount(parseInt(data.priceUSD))
+      // console.log(parseInt(dealData.priceUSD))
+      
   }
+
+
+  // console.log(amount)
 
   const [renderComponent, setRenderComponent] = useState(true)
   
   useEffect( async ()=> {
-      // await Moralis.enableWeb3()
+      // console.log(props)
       fetchDeal()
       setDescriptionText(_output)
 
@@ -80,7 +102,7 @@ export default function DealCard(props) {
           <GetDealStatus dealId={props.dealdata.attributes.dealId} />
           <Stack mt={2} direction={'row'} spacing={4}>
             {props.user === 'lawyer' && <CancelFinalize dealId={props.dealdata.attributes.dealId}/>}
-            {props.user === 'customer' && <Pay dealId={props.dealdata.attributes.dealId} dealStatus={dealStatus}/>}
+            {props.user === 'customer' && <Pay dealId={props.dealdata.attributes.dealId} dealStatus={dealStatus} tokenAmount={tokenAmount} symbol={props.dealdata.attributes.symbol}/>}
           </Stack>
         </Box>}
         <></>

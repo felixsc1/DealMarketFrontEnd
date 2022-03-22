@@ -13,7 +13,7 @@ function getDescription(dealId) {
         const query = new Moralis.Query(Deals)
         query.equalTo("dealId_decimal", dealId)
         const results = await query.find()
-        console.log(results[0])
+        // console.log(results[0])
         return results
     }
 
